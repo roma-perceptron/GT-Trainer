@@ -1,1 +1,1 @@
-ReadMe will be there soon..
+Simple frontend app, vibe-coded on Qoder
