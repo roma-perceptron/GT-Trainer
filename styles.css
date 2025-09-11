@@ -1,0 +1,486 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    overflow-x: auto;
+}
+
+#app {
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: #2d2d2d;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar-content {
+    padding: 20px;
+}
+
+.sidebar-content h3 {
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.exercise-list {
+    list-style: none;
+}
+
+.exercise-category {
+    margin-bottom: 5px;
+}
+
+.exercise-list li {
+    margin-bottom: 10px;
+}
+
+.category-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+    font-size: 12px;
+}
+
+.arrow.rotated {
+    transform: rotate(180deg);
+}
+
+.subcategory-list {
+    list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    margin-top: 5px;
+}
+
+.subcategory-list.expanded {
+    max-height: 200px;
+}
+
+.subcategory-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+    margin-left: 16px;
+    background-color: #505050;
+}
+
+.subcategory-btn:hover {
+    background-color: #606060;
+}
+
+.exercise-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #404040;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.exercise-btn:hover {
+    background-color: #555555;
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.overlay.show {
+    display: block;
+}
+
+/* Main content */
+.main {
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #333333;
+    border-bottom: 2px solid #444444;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 20px;
+}
+
+.menu-btn span {
+    width: 100%;
+    height: 3px;
+    background-color: #ffffff;
+    transition: 0.3s;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+/* Fretboard */
+.fretboard-container {
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.fretboard-wrapper {
+    min-width: 800px;
+}
+
+.fretboard {
+    border-collapse: separate;
+    border-spacing: 2px;
+    background-color: #8B4513;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.fret-numbers th {
+    padding: 8px;
+    background-color: #654321;
+    color: transparent;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+    transition: color 0.3s ease;
+}
+
+.fret-numbers:hover th {
+    color: #ffffff;
+}
+
+.string-row {
+    height: 40px;
+}
+
+.string-label {
+    padding: 10px;
+    background-color: #654321;
+    color: transparent;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px 0 0 5px;
+    min-width: 40px;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.string-label::after {
+    content: attr(data-string-name);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: transparent;
+    transition: color 0.3s ease;
+}
+
+.fretboard td:first-child:hover::after {
+    color: #ffffff;
+}
+
+.fret-cell {
+    background-color: #D2B48C;
+    color: #000000;
+    text-align: center;
+    padding: 8px 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border: 1px solid #8B4513;
+    position: relative;
+}
+
+.fret-cell:hover {
+    background-color: #F4E4BC;
+    transform: scale(1.1);
+    z-index: 5;
+}
+
+.fret-cell.highlighted {
+    background-color: #FFD700;
+    color: #000000;
+    font-weight: bold;
+    border: 2px solid #FF6B35;
+}
+
+.fret-cell.note-visible {
+    background-color: #E6D3A3;
+    color: #8B4513;
+    font-weight: bold;
+}
+
+.fret-cell.game-discovered {
+    background-color: #C8E6C9;
+    color: #2E7D32;
+    font-weight: bold;
+}
+
+.fret-cell.game-discovered-temp {
+    background-color: #C8E6C9;
+    color: #2E7D32;
+    font-weight: bold;
+}
+
+.fret-cell.game-discovered-hidden {
+    background-color: #A5D6A7;
+    color: transparent;
+}
+
+.fret-cell.interval-root {
+    background-color: #FFECB3;
+    color: #F57F17;
+    font-weight: bold;
+    border: 2px solid #FFA000;
+}
+
+.fret-cell.interval-target {
+    background-color: #E1F5FE;
+    color: #0277BD;
+    font-weight: bold;
+    border: 2px solid #0288D1;
+}
+
+.fret-cell.correct-flash {
+    background-color: #4CAF50 !important;
+    color: #ffffff !important;
+}
+
+.fret-cell.wrong-flash {
+    background-color: #F44336 !important;
+    color: #ffffff !important;
+}
+
+/* Game area */
+.game-area {
+    padding: 15px 20px;
+    background-color: #2d2d2d;
+    margin: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.game-area.hidden {
+    display: none;
+}
+
+.game-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.game-display h3 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 24px;
+}
+
+.current-note {
+    font-size: 36px;
+    font-weight: bold;
+    color: #FFD700;
+    margin: 0;
+    min-width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-message {
+    color: #4CAF50;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    min-height: 30px;
+}
+
+/* Fret markers - positioned between strings like real guitar */
+.fret-cell[data-fret="3"][data-string="2"]::after,
+.fret-cell[data-fret="5"][data-string="2"]::after,
+.fret-cell[data-fret="7"][data-string="2"]::after,
+.fret-cell[data-fret="9"][data-string="2"]::after {
+    content: "●";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #654321;
+    font-size: 40px;
+    z-index: 10;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.fret-cell[data-fret="12"][data-string="1"]::after {
+    content: "●";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #654321;
+    font-size: 40px;
+    z-index: 10;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.fret-cell[data-fret="12"][data-string="3"]::after {
+    content: "●";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #654321;
+    font-size: 40px;
+    z-index: 10;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+/* Desktop styles */
+@media (min-width: 769px) {
+    .main.sidebar-open {
+        margin-left: 300px;
+    }
+    
+    .overlay {
+        display: none !important;
+    }
+}
+
+/* Mobile and tablet styles */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px 15px;
+    }
+    
+    .header h1 {
+        font-size: 20px;
+    }
+    
+    .fretboard-container {
+        padding: 10px;
+    }
+    
+    .fretboard {
+        font-size: 12px;
+    }
+    
+    .fret-cell {
+        padding: 6px 2px;
+        font-size: 12px;
+    }
+    
+    .string-label {
+        padding: 6px;
+        font-size: 12px;
+        min-width: 30px;
+    }
+    
+    .fret-numbers th {
+        padding: 4px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 250px;
+        left: -250px;
+    }
+    
+    .fretboard {
+        font-size: 10px;
+    }
+    
+    .fret-cell {
+        padding: 4px 1px;
+        font-size: 10px;
+    }
+    
+    .string-label {
+        padding: 4px;
+        font-size: 10px;
+        min-width: 25px;
+    }
+    
+    .fret-numbers th {
+        padding: 2px;
+        font-size: 10px;
+    }
+}
+
+/* Landscape orientation for mobile devices */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        padding: 5px 15px;
+    }
+    
+    .header h1 {
+        font-size: 18px;
+    }
+    
+    .fretboard-container {
+        padding: 5px;
+    }
+    
+    .string-row {
+        height: 35px;
+    }
+    
+    .fret-cell {
+        padding: 4px 2px;
+    }
+}
