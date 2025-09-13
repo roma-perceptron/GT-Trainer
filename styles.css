@@ -260,6 +260,26 @@ body {
     font-weight: bold;
 }
 
+.fret-cell.note-dimmed {
+    background-color: #D2B48C;
+    color: #A0A0A0;
+    opacity: 0.4;
+}
+
+.fret-cell.note-highlighted {
+    background-color: #FFE082;
+    color: #E65100;
+    font-weight: bold;
+    border: 2px solid #FF8F00;
+}
+
+.string-label.open-note-highlighted {
+    background-color: #FFE082;
+    color: #E65100;
+    font-weight: bold;
+    border: 2px solid #FF8F00;
+}
+
 .fret-cell.game-discovered {
     background-color: #C8E6C9;
     color: #2E7D32;
@@ -346,6 +366,136 @@ body {
     min-height: 30px;
 }
 
+/* Pentatonic game styles */
+.pentatonic-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.pentatonic-display h3 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 20px;
+}
+
+.box-selector {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.box-btn {
+    padding: 8px 16px;
+    background-color: #404040;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.box-btn:hover {
+    background-color: #555555;
+}
+
+.box-btn.active {
+    background-color: #FF8F00;
+    color: #000000;
+    font-weight: bold;
+}
+
+.blue-notes-btn {
+    padding: 8px 16px;
+    background-color: #404040;
+    color: #2196F3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    margin-left: 10px;
+}
+
+.blue-notes-btn:hover {
+    background-color: #555555;
+}
+
+.blue-notes-btn.active {
+    background-color: #2196F3;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.fret-cell.pentatonic-note {
+    background-color: #E8F5E8;
+    color: #2E7D32;
+    font-weight: bold;
+}
+
+.fret-cell.pentatonic-tonic {
+    color: #D32F2F;
+}
+
+.fret-cell.pentatonic-highlighted {
+    background-color: #81C784;
+    color: #1B5E20;
+    font-weight: bold;
+    border: 2px solid #4CAF50;
+}
+
+.fret-cell.pentatonic-highlighted.pentatonic-tonic {
+    color: #D32F2F;
+}
+
+.fret-cell.pentatonic-dimmed {
+    background-color: #F1F8E9;
+    color: #689F38;
+    opacity: 0.6;
+}
+
+.fret-cell.pentatonic-blue-note {
+    background-color: #E3F2FD;
+    color: #1976D2;
+    font-weight: bold;
+}
+
+.string-label.pentatonic-open-note {
+    background-color: #E8F5E8;
+    color: #2E7D32;
+    font-weight: bold;
+}
+
+.string-label.pentatonic-open-tonic {
+    color: #D32F2F;
+}
+
+.string-label.pentatonic-open-highlighted {
+    background-color: #81C784;
+    color: #1B5E20;
+    font-weight: bold;
+    border: 2px solid #4CAF50;
+}
+
+.string-label.pentatonic-open-highlighted.pentatonic-open-tonic {
+    color: #D32F2F;
+}
+
+.string-label.pentatonic-open-dimmed {
+    background-color: #F1F8E9;
+    color: #689F38;
+    opacity: 0.6;
+}
+
+.string-label.pentatonic-open-blue-note {
+    background-color: #E3F2FD;
+    color: #1976D2;
+    font-weight: bold;
+}
+
 /* Fret markers - positioned between strings like real guitar */
 .fret-cell[data-fret="3"][data-string="2"]::after,
 .fret-cell[data-fret="5"][data-string="2"]::after,
@@ -358,7 +508,7 @@ body {
     transform: translate(-50%, -50%);
     color: #654321;
     font-size: 40px;
-    z-index: 10;
+    z-index: 15;
     pointer-events: none;
     text-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
@@ -371,7 +521,7 @@ body {
     transform: translate(-50%, -50%);
     color: #654321;
     font-size: 40px;
-    z-index: 10;
+    z-index: 15;
     pointer-events: none;
     text-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
@@ -384,7 +534,7 @@ body {
     transform: translate(-50%, -50%);
     color: #654321;
     font-size: 40px;
-    z-index: 10;
+    z-index: 15;
     pointer-events: none;
     text-shadow: 0 0 3px rgba(0,0,0,0.5);
 }

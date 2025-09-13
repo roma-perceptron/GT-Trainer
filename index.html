@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guitar Trainer</title>
+    <title>Guitar Theory Trainer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,9 +19,9 @@
                             <span class="arrow">▼</span>
                         </button>
                         <ul class="subcategory-list" id="notes-subcategory">
-                            <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('notes-variant1')">Вариант_1</button></li>
-                            <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('notes-variant2')">Вариант_2</button></li>
-                            <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('notes-variant3')">Вариант_3</button></li>
+                            <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('notes-variant1')">Смотреть ноты</button></li>
+                            <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('notes-variant2')">Открывать ноты</button></li>
+                            <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('notes-variant3')">Искать ноты</button></li>
                         </ul>
                     </li>
                     <li class="exercise-category">
@@ -33,6 +33,15 @@
                             <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('intervals-variant1')">Вариант_1</button></li>
                             <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('intervals-variant2')">Вариант_2</button></li>
                             <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('intervals-variant3')">Вариант_3</button></li>
+                        </ul>
+                    </li>
+                    <li class="exercise-category">
+                        <button class="exercise-btn category-btn" onclick="toggleCategory('pentatonic')">
+                            <span>Пентатоника</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <ul class="subcategory-list" id="pentatonic-subcategory">
+                            <li><button class="exercise-btn subcategory-btn" onclick="selectExercise('pentatonic-boxes-em')">Боксы Em</button></li>
                         </ul>
                     </li>
                 </ul>
@@ -51,7 +60,7 @@
                     <span></span>
                     <span></span>
                 </button>
-                <h1>Guitar Trainer</h1>
+                <h1>Guitar Theory Trainer</h1>
             </div>
 
             <!-- Fretboard container -->
@@ -96,6 +105,7 @@
     <script src="games/noteGame1.js"></script>
     <script src="games/noteGame2.js"></script>
     <script src="games/intervalGame1.js"></script>
+    <script src="games/pentatonicBoxesEm.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

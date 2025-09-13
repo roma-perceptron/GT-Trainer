@@ -57,6 +57,11 @@ function generateFretboard() {
             row.appendChild(cell);
         }
         
+        // Add open string (fret 0) note to dataset but don't create cell
+        const stringRootNotes = [4, 11, 7, 2, 9, 4]; // E, B, G, D, A, E in semitones from C
+        const openNote = NOTES[stringRootNotes[stringIndex]];
+        labelCell.dataset.openNote = openNote;
+        
         fretboardBody.appendChild(row);
     });
     
@@ -86,9 +91,27 @@ function onFretClick(stringIndex, fret, note) {
         return; // Game handled the click
     }
     
-    // Normal mode - toggle highlight
+    // Check if we're in note viewing mode
     const cell = document.querySelector(`[data-string="${stringIndex}"][data-fret="${fret}"]`);
+    if (cell.classList.contains('note-visible')) {
+        // Clicked on a visible note - filter by this note
+        filterNotesByType(note);
+        return;
+    }
+    
+    // Normal mode - toggle highlight
     cell.classList.toggle('highlighted');
+}
+
+// Handle clicks on empty fretboard areas
+function onFretboardClick(event) {
+    // If clicked on empty area or empty cell, show all notes
+    if (event.target.classList.contains('fretboard') || 
+        event.target.classList.contains('fretboard-wrapper') ||
+        event.target.tagName === 'TBODY' ||
+        (event.target.classList.contains('fret-cell') && !event.target.textContent.trim())) {
+        showAllNotes();
+    }
 }
 
 // Sidebar functionality
@@ -106,6 +129,7 @@ function toggleSidebar() {
 let noteGame1 = new NoteGame1();
 let noteGame2 = new NoteGame2();
 let intervalGame1 = new IntervalGame1();
+let pentatonicBoxesEm = new PentatonicBoxesEm();
 let currentGame = null;
 
 // Exercise selection
@@ -128,6 +152,9 @@ function selectExercise(exerciseType) {
     } else if (exerciseType === 'intervals-variant1') {
         currentGame = intervalGame1;
         intervalGame1.start();
+    } else if (exerciseType === 'pentatonic-boxes-em') {
+        currentGame = pentatonicBoxesEm;
+        pentatonicBoxesEm.start();
     }
     
     // Close sidebar on mobile after selection
@@ -150,11 +177,56 @@ function showBasicNotes() {
     });
 }
 
+// Filter notes by selected note
+function filterNotesByType(selectedNote) {
+    document.querySelectorAll('.fret-cell').forEach(cell => {
+        const note = cell.dataset.note;
+        if (note === selectedNote) {
+            cell.classList.remove('note-dimmed');
+            cell.classList.add('note-highlighted');
+        } else {
+            cell.classList.add('note-dimmed');
+            cell.classList.remove('note-highlighted');
+        }
+    });
+    
+    // Handle open string notes
+    document.querySelectorAll('.string-label').forEach(label => {
+        const openNote = label.dataset.openNote;
+        if (openNote === selectedNote) {
+            label.classList.add('open-note-highlighted');
+            label.textContent = openNote;
+        } else {
+            label.classList.remove('open-note-highlighted');
+            label.textContent = '';
+        }
+    });
+}
+
+// Show all notes normally
+function showAllNotes() {
+    document.querySelectorAll('.fret-cell').forEach(cell => {
+        cell.classList.remove('note-dimmed', 'note-highlighted');
+    });
+    
+    document.querySelectorAll('.string-label').forEach(label => {
+        label.classList.remove('open-note-highlighted');
+        label.textContent = '';
+    });
+}
+
 // Clear all displayed notes
 function clearAllNotes() {
     document.querySelectorAll('.fret-cell').forEach(cell => {
         cell.textContent = '';
-        cell.classList.remove('note-visible', 'highlighted', 'game-discovered', 'game-discovered-temp', 'game-discovered-hidden', 'interval-root', 'interval-target');
+        cell.classList.remove('note-visible', 'highlighted', 'game-discovered', 'game-discovered-temp', 'game-discovered-hidden', 'interval-root', 'interval-target', 'note-dimmed', 'note-highlighted', 'pentatonic-note', 'pentatonic-highlighted', 'pentatonic-dimmed', 'pentatonic-tonic', 'pentatonic-blue-note');
+    });
+    
+    document.querySelectorAll('.string-label').forEach(label => {
+        label.classList.remove('open-note-highlighted', 'pentatonic-open-note', 'pentatonic-open-highlighted', 'pentatonic-open-dimmed', 'pentatonic-open-tonic', 'pentatonic-open-blue-note');
+        if (!label.dataset.stringName) {
+            label.textContent = '';
+        }
     });
 }
 
@@ -163,6 +235,7 @@ function stopAllGames() {
     if (noteGame1) noteGame1.stop();
     if (noteGame2) noteGame2.stop();
     if (intervalGame1) intervalGame1.stop();
+    if (pentatonicBoxesEm) pentatonicBoxesEm.stop();
     currentGame = null;
 }
 
@@ -179,6 +252,9 @@ function toggleCategory(categoryId) {
 document.addEventListener('DOMContentLoaded', function() {
     initializeNotesDict();
     generateFretboard();
+    
+    // Add click listener for empty fretboard areas
+    document.getElementById('fretboard').addEventListener('click', onFretboardClick);
 });
 
 // Handle window resize

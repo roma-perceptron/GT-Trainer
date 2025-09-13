@@ -119,3 +119,4 @@ fabric.properties
 # custom
 .idea
 tz.txt
+*.code-workspace
